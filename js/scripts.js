@@ -78,41 +78,6 @@ $(document).ready(function () {
 
     });
 
-    /***************** Header BG Scroll ******************/
-
-    $(function () {
-        $(window).scroll(function () {
-            var scroll = $(window).scrollTop();
-
-            if (scroll >= 20) {
-                $('section.navigation').addClass('fixed');
-                $('header').css({
-                    "border-bottom": "none",
-                    "padding": "35px 0",
-                    "background-color": "#bf515b"
-                });
-                $('header .member-actions').css({
-                    "top": "26px",
-                });
-                $('header .navicon').css({
-                    "top": "34px",
-                });
-            } else {
-                $('section.navigation').removeClass('fixed');
-                $('header').css({
-                    "border-bottom": "solid 1px rgba(255, 255, 255, 0.2)",
-                    "padding": "50px 0",
-                    "background-color": "transparent"
-                });
-                $('header .member-actions').css({
-                    "top": "41px",
-                });
-                $('header .navicon').css({
-                    "top": "48px",
-                });
-            }
-        });
-    });
     /***************** Smooth Scrolling ******************/
 
     $(function () {
@@ -158,10 +123,6 @@ $(document).ready(function () {
         share_bar[i].style.display = 'inline-block';
     }
 
-    /********************** Embed youtube video *********************/
-    $('.player').YTPlayer();
-
-
     /********************** Toggle Map Content **********************/
     $('#btn-show-map').click(function () {
         $('#map-content').toggleClass('toggle-map-content');
@@ -172,198 +133,83 @@ $(document).ready(function () {
         $('#btn-show-content').toggleClass('toggle-map-content');
     });
 
-    /********************** Weather **********************/
-    //const apiKey = 'YOUR_API_KEY';
-    //const venueLatitude = 'YOUR_VENUE_LATITUDE';
-    //const venueLongitude = 'YOUR_VENUE_LONGITUDE';
+    /********************** Pattern Basket **********************/
+    (function () {
+        var storageKey = 'knittingQBasket';
 
-    //fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${venueLatitude},${venueLongitude}&days=1`)
-    //    .then(response => response.json())
-    //    .then(data => {
-    //        const forecast = data.forecast.forecastday[0];
-    //        const temperature = forecast.day.avgtemp_c;
-    //        const conditions = forecast.day.condition.text;
-    //        const weatherInfo = `Temperature: ${temperature}°C, Conditions: ${conditions}`;
-    //        document.getElementById('weather-info').textContent = weatherInfo;
-    //    })
-    //    .catch(error => {
-    //        console.error('Error fetching weather data:', error);
-    //    });
-
-    /********************** Countdown **********************/
-        // Set the date we're counting down to
-    var countDownDate = new Date("June 14, 2025 00:00:00").getTime();
-
-    // Update the countdown every 1 second
-    var x = setInterval(function() {
-
-        // Get the current date and time
-        var now = new Date().getTime();
-
-        // Calculate the time remaining
-        var distance = countDownDate - now;
-
-        // Calculate days, hours, minutes and seconds
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-
-        // Display the result in the element with id="countdown"
-        document.getElementById("countdown").innerHTML = days + " days left! ";
-
-        // If the countdown is finished, display a message
-        if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("countdown").innerHTML = "EXPIRED";
+        function getItems() {
+            try {
+                return JSON.parse(localStorage.getItem(storageKey)) || [];
+            } catch (error) {
+                return [];
+            }
         }
-    }, 1000);
 
-    /********************** Add to Calendar **********************/
-    var myCalendar = createCalendar({
-        options: {
-            class: '',
-            // You can pass an ID. If you don't, one will be generated for you
-            id: ''
-        },
-        data: {
-            // Event title
-            title: "Qiqi & George's Wedding",
-
-            // Event start date
-            start: new Date('Jun 14, 2025 12:00'),
-
-            // Event duration (IN MINUTES)
-            // duration: 120,
-
-            // You can also choose to set an end time
-            // If an end time is set, this will take precedence over duration
-            end: new Date('Jun 14, 2025 23:30'),
-
-            // Event Address
-            address: 'High Billinghurst Farm',
-
-            // Event Description
-            description: "We can't wait to see you on our big day! <3"
+        function saveItems(items) {
+            localStorage.setItem(storageKey, JSON.stringify(items));
         }
-    });
 
-    $('#add-to-cal').html(myCalendar);
+        function updateCounts() {
+            var count = getItems().length;
+            $('.basket-count').text(count ? '(' + count + ')' : '');
+            $('.basket-link').attr('aria-label', 'Basket with ' + count + ' item' + (count === 1 ? '' : 's'));
+        }
 
+        $(document).on('click', '[data-add-pattern]', function () {
+            var button = $(this);
+            var id = button.attr('data-pattern-id');
+            var items = getItems();
 
-    /********************** RSVP **********************/
-    $('#rsvp-form').on('submit', function (e) {
-        e.preventDefault();
-        var data = $(this).serialize();
+            if (!items.some(function (item) { return item.id === id; })) {
+                items.push({
+                    id: id,
+                    name: button.attr('data-pattern-name'),
+                    image: button.attr('data-pattern-image'),
+                    price: Number(button.attr('data-pattern-price')),
+                    url: button.attr('data-pattern-url')
+                });
+                saveItems(items);
+            }
 
-        $('#alert-wrapper').html(alert_markup('info', '<strong>Just a sec!</strong> We are saving your details.'));
+            button.text('Added to Basket');
+            updateCounts();
+        });
 
+        var basketItems = document.getElementById('basket-items');
+        if (basketItems) {
+            var items = getItems();
 
-        //if (MD5($('#invite_code').val()) !== '77d235e1d501503516c57bbecbbafdf6')  {
-        //    $('#alert-wrapper').html(alert_markup('danger', '<strong>Sorry!</strong> Your invite code is incorrect.'));
-        //} else {
-        $.post('https://script.google.com/macros/s/AKfycbwymyTnfDNXCD467ZWqCQcQEUGggGnZGOIfpUPcTTMGUV00aViK4-blt9Tya-dxyZVFJQ/exec', data)
-            .done(function (data) {
-                console.log(data);
-                if (data.result === "error") {
-                    $('#alert-wrapper').html(alert_markup('danger', data.message));
-                } else {
-                    $('#alert-wrapper').html('');
-                    $('#rsvp-modal').modal('show');
-                }
-            })
-            .fail(function (data) {
-                console.log(data);
-                $('#alert-wrapper').html(alert_markup('danger', '<strong>Sorry!</strong> There is some issue with the server. '));
+            if (!items.length) {
+                basketItems.innerHTML = '<p class="basket-empty">Your basket is empty.</p>';
+                document.getElementById('basket-summary').innerHTML = '';
+            } else {
+                var total = 0;
+                basketItems.innerHTML = items.map(function (item) {
+                    total += item.price;
+                    return '<article class="basket-item">' +
+                        '<img src="' + item.image + '" alt="" class="basket-item-image">' +
+                        '<div class="basket-item-details"><h4><a href="' + item.url + '">' + item.name + '</a></h4>' +
+                        '<p>£' + item.price.toFixed(2) + '</p></div>' +
+                        '<button type="button" class="btn btn-accent btn-small remove-pattern" data-remove-pattern="' + item.id + '">Remove</button>' +
+                        '</article>';
+                }).join('');
+
+                document.getElementById('basket-summary').innerHTML = '<strong>Total: £' + total.toFixed(2) + '</strong>';
+            }
+
+            $(document).on('click', '[data-remove-pattern]', function () {
+                var id = $(this).attr('data-remove-pattern');
+                saveItems(getItems().filter(function (item) { return item.id !== id; }));
+                window.location.reload();
             });
-        //}
-    });
+        }
 
-});
+        updateCounts();
+    })();
 
-document.getElementById('codeForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
-
-    var code = parseInt(document.getElementById('code').value); // Parse the entered code as an integer
-    console.log("Entered code:", code); // Debug statement
-
-    // Here you can define your secret code as a number
-    var correctCode = 140625; // Change this to your desired numeric code
-    console.log("Correct code:", correctCode); // Debug statement
-
-    // Check if entered code is correct
-    if (code === correctCode) {
-        console.log("Code is correct!"); // Debug statement
-        document.getElementById('invitation').classList.remove('hidden');
-        document.getElementById('timeline').classList.remove('hidden');
-        document.getElementById('fooddrink').classList.remove('hidden');
-        document.getElementById('dresscode').classList.remove('hidden');
-        document.getElementById('accommodation').classList.remove('hidden');
-        document.getElementById('taxi').classList.remove('hidden');
-        document.getElementById('other').classList.remove('hidden');
-        document.getElementById('map').classList.remove('hidden');
-        document.getElementById('rsvp').classList.remove('hidden');
-        document.getElementById('codeForm').style.display = 'none';
-    } else {
-        console.log("Incorrect code!"); // Debug statement
-        alert('Incorrect code! Please try again.');
-    }
 });
 
 /********************** Extras **********************/
-
-// Google map
-function initMap() {
-    var location = {lat: 22.5932759, lng: 88.27027720000001};
-    var map = new google.maps.Map(document.getElementById('map-canvas'), {
-        zoom: 15,
-        center: location,
-        scrollwheel: false
-    });
-
-    var marker = new google.maps.Marker({
-        position: location,
-        map: map
-    });
-}
-
-function initBBSRMap() {
-    var la_fiesta = {lat: 20.305826, lng: 85.85480189999998};
-    var map = new google.maps.Map(document.getElementById('map-canvas'), {
-        zoom: 15,
-        center: la_fiesta,
-        scrollwheel: false
-    });
-
-    var marker = new google.maps.Marker({
-        position: la_fiesta,
-        map: map
-    });
-}
-
-// alert_markup
-function alert_markup(alert_type, msg) {
-    return '<div class="alert alert-' + alert_type + '" role="alert">' + msg + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button></div>';
-}
-
-// toggle check box
-function toggleInputs(checkbox) {
-    var additionalInputs = document.querySelectorAll('.additional-inputs');
-
-    if (checkbox.id === 'yes' && checkbox.checked) {
-        additionalInputs.forEach(function(input) {
-            input.style.display = 'block';
-        });
-        document.getElementById('no').checked = false; // Uncheck the "No" box
-    } else if (checkbox.id === 'no' && checkbox.checked) {
-        additionalInputs.forEach(function(input) {
-            input.style.display = 'none';
-        });
-        document.getElementById('yes').checked = false; // Uncheck the "Yes" box
-    } else {
-        additionalInputs.forEach(function(input)  {
-            input.style.display = 'none';
-        });
-    }
-}
-
 
 
 // MD5 Encoding

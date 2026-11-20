@@ -1,10 +1,11 @@
 {
-  "name": "wedding-website",
+  "name": "knitting-q",
   "version": "1.0.1",
-  "description": "A wedding website with loads of features.",
+  "description": "Original knitting patterns and projects.",
   "main": "npmfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "python3 -m http.server 8000 --bind 0.0.0.0",
+    "test": "npx gulp"
   },
   "repository": {
     "type": "git",

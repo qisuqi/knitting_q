@@ -12,7 +12,7 @@
 	text-transform: uppercase;
 }
 .btn:hover, .btn:focus {
-	color: $white-color;
+	color: $accent-color;
 	border-color: $accent-color;
 	background-color: $accent-color;
 }
@@ -23,7 +23,7 @@
 	-webkit-border-radius: 40px;
 	border-radius: 40px;
 	display: inline-block;
-	border-color: $txt-light;
+	border-color: $accent-color;
 }
 .btn-white:hover, .btn-white:focus {
 	color: $accent-color;

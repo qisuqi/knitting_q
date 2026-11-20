@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Samples</title>
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.min.css">
+    <link rel="stylesheet" href="css/queries.css?v=4">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css" onerror="loadCssFromCDN('font-awesome.css')">
+    <script>
+        function loadCssFromCDN(css) {
+            const link = document.createElement('link');
+            if (css === 'font-awesome.css') {
+                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            }
+            link.rel = 'stylesheet';
+            document.head.appendChild(link);
+        }
+        function loadJsFromCDN(js) {
+            if (js === 'waypoints.js') {
+                document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"><\/script>');
+            }
+        }
+    </script>
+</head>
+<body>
+<section class="hero">
+    <section class="navigation">
+        <header>
+            <div class="header-content">
+                <li><a href="index.html" style="font-family: lucida console; font-size: 36px;">Knitting Q</a></li>
+
+                <div class="header-nav">
+                    <nav>
+                        <ul class="primary-nav">
+                            <li><a href="pattern.html">Patterns</a></li>
+                            <li><a href="samples.html" class="login">Samples</a></li>
+                            <li><a href="about.html" class="login">About</a></li>
+                        </ul>
+                        <ul class="member-actions">
+                            <li><a href="basket.html" class="btn-white btn-small basket-link">Basket <span class="basket-count"></span></a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="navicon">
+                    <button class="nav-toggle" aria-label="Toggle navigation"><span></span></button>
+                </div>
+            </div>
+        </header>
+    </section>
+</section>
+
+<main >
+    <section class="section-padding" style="padding-top: 200px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3 class="header" style="color: #A81037FF">Samples</h3>
+                    <p>Discover finished samples made with care.</p>
+                </div>  
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center content">
+                    <span class="to-top-wrapper"><a href="#top" class="to-top"><i class="fa fa-angle-up"></i></a></span>
+                <h5> © 2026 Knitting Q. All rights reserved. </h5>
+                    <p>
+                        All original knitwear designs, knitting patterns, photographs, illustrations, and written content on this 
+                        website are the intellectual property of Knitting Q and are protected by copyright law.
+                        
+                        No part of this website or its content may be copied, reproduced, distributed, republished, or used for 
+                        commercial purposes without prior written permission from Knitting Q. This includes unauthorised use on 
+                        third-party websites, marketplaces, social media platforms and in advertising.
+                        
+                        Purchasing a knitting pattern grants the purchaser a personal licence to use the pattern for their own 
+                        knitting projects. It does not transfer ownership of the design or grant permission to reproduce, redistribute,
+                        or commercially exploit the pattern itself.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</main>
+
+<script src="js/vendor/jquery-1.11.2.min.js"></script>
+<script src="node_modules/waypoints/lib/jquery.waypoints.min.js" onerror="loadJsFromCDN('waypoints.js')"></script>
+<script src="js/jquery.fancybox.pack.js"></script>
+<script src="js/vendor/bootstrap.min.js"></script>
+<script src="js/jquery.flexslider-min.js"></script>
+<script src="js/scripts.js"></script>
+</body>
+</html>
