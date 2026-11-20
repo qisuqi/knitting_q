@@ -3,22 +3,22 @@
   "version": "1.0.1",
   "description": "Original knitting patterns and projects.",
   "main": "npmfile.js",
-  "scripts": {
-    "start": "python3 -m http.server 8000 --bind 0.0.0.0",
-    "test": "npx gulp"
+"scripts": {
+  "start": "gulp",
+  "build": "gulp",
+  "test": "npx gulp"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:rampatra/wedding-website.git"
+    "url": "git+ssh://git@github.com:qisuqi/knitting_q.git"
   },
   "keywords": [
-    "wedding",
-    "template",
-    "website template"
+    "knitting",
+    "pattern"
   ],
-  "author": "Ram Patra",
+  "author": "qisuqi",
   "license": "GPL-3.0",
-  "homepage": "https://github.com/rampatra/wedding-website",
+  "homepage": "https://github.com/qisuqi/knitting_q",
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-rename": "^1.4.0",
